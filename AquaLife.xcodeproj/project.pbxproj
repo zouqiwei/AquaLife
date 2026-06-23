@@ -1,0 +1,545 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		092D79FD2559653B38BD6CD0 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABAE41DEDDEEB6D3855025 /* DateHelper.swift */; };
+		0CE777BDEE69336B19057DDB /* WaterStatsCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F62A2520175C71B51F9C14C /* WaterStatsCalculatorTests.swift */; };
+		14E5E28A29B47D092883EFEF /* QuickAddWaterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699AEFB3C376B4ACEA2CD40C /* QuickAddWaterSheet.swift */; };
+		18DC503E4F559EB78B4E7D70 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B6C78521EFE266CB8F7E4A /* ProfileView.swift */; };
+		2B5B63949DE86271E41E7A43 /* HealthCardGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F355B8E66011CD4F06304B48 /* HealthCardGrid.swift */; };
+		3F43A4772EFD69F1A2B38969 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294F46C98E8E8E5C35A73629 /* StatsView.swift */; };
+		4434D92E007E4A1BD9B7054A /* CalendarHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD2E3316B222F076675F50C /* CalendarHeatmapView.swift */; };
+		5280C1BD2992DE4AF6C5E085 /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A410E18B042D215F3F19BC76 /* CheckInView.swift */; };
+		61CB7B45DDB19F2D8D90E4F7 /* WaterRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1709E56D6F4C2AEDBDF4798F /* WaterRecord.swift */; };
+		62AD26645BB06534D72DBD4A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB9611B1B7EAA9B705F6C71 /* ContentView.swift */; };
+		66FB3D35F32C1D6C1BB1AED9 /* WaterStatsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A7763090AA46FC3F7F77A2 /* WaterStatsCalculator.swift */; };
+		769AAEA1D04C160BA6D8B224 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4B4F33C795AC31E1E29FE /* GoalSettings.swift */; };
+		78FF740E433F93360FCC850A /* DailyHealthSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A33B8D5036FD9DA251C5D /* DailyHealthSnapshot.swift */; };
+		84904DF5A1764CC47ABA5717 /* GoalSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284CE208DFBDEF21DFD7BFB8 /* GoalSettingsTests.swift */; };
+		A6E75B83706E2D16F8B9A181 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAF94F8DF8DF1305742609E /* HealthKitManager.swift */; };
+		A716FA0F9941FA689D6B6F47 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7CEF0215C85BBC6CFFB0E /* NotificationManager.swift */; };
+		C710EF2AA71FAF29FA224039 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F7A93E4F774B243055BF4D /* Habit.swift */; };
+		CA1D9E7A31925A07DE53625C /* AquaLifeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4987893078918E3BC9DCE104 /* AquaLifeApp.swift */; };
+		CBCBE905D9CC4AFB3896C5D6 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23066EFEA6707CD1AAD5F6F4 /* TodayView.swift */; };
+		D11B2C401379462821169B53 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39497C5CEFAAC9251316C643 /* AppTheme.swift */; };
+		E84AC23B51E79F491A132042 /* WaterProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CEE1A65C8FF9C279DFC63 /* WaterProgressRing.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE6158C141C18E17CC38CA82 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D1C0CEDBABA39473E1C5C77 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 67D0BABBFB76D9145978CA75;
+			remoteInfo = AquaLife;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		13A7763090AA46FC3F7F77A2 /* WaterStatsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterStatsCalculator.swift; sourceTree = "<group>"; };
+		1709E56D6F4C2AEDBDF4798F /* WaterRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterRecord.swift; sourceTree = "<group>"; };
+		23066EFEA6707CD1AAD5F6F4 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		284CE208DFBDEF21DFD7BFB8 /* GoalSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingsTests.swift; sourceTree = "<group>"; };
+		294F46C98E8E8E5C35A73629 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		2EB9611B1B7EAA9B705F6C71 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		31B6C78521EFE266CB8F7E4A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		39497C5CEFAAC9251316C643 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		3FF4B4F33C795AC31E1E29FE /* GoalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettings.swift; sourceTree = "<group>"; };
+		4867B633E8400BD1BBF7AC7A /* AquaLife.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AquaLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4987893078918E3BC9DCE104 /* AquaLifeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaLifeApp.swift; sourceTree = "<group>"; };
+		51F7A93E4F774B243055BF4D /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		5F62A2520175C71B51F9C14C /* WaterStatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterStatsCalculatorTests.swift; sourceTree = "<group>"; };
+		699AEFB3C376B4ACEA2CD40C /* QuickAddWaterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddWaterSheet.swift; sourceTree = "<group>"; };
+		7CAF94F8DF8DF1305742609E /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		7E4CEE1A65C8FF9C279DFC63 /* WaterProgressRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterProgressRing.swift; sourceTree = "<group>"; };
+		A410E18B042D215F3F19BC76 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
+		C0B7CEF0215C85BBC6CFFB0E /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		CCF3B69EE3C474D9EE3053DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DECB3431B7DFF8E084BD4C1C /* AquaLifeTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AquaLifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5ABAE41DEDDEEB6D3855025 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		EAD2E3316B222F076675F50C /* CalendarHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeatmapView.swift; sourceTree = "<group>"; };
+		ECD28C35597E2A8B3DB2EE5D /* AquaLife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AquaLife.entitlements; sourceTree = "<group>"; };
+		F355B8E66011CD4F06304B48 /* HealthCardGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCardGrid.swift; sourceTree = "<group>"; };
+		F69A33B8D5036FD9DA251C5D /* DailyHealthSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyHealthSnapshot.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		04475F1081DF12E0F2515083 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4867B633E8400BD1BBF7AC7A /* AquaLife.app */,
+				DECB3431B7DFF8E084BD4C1C /* AquaLifeTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1893F9AEC9E4704798F4D500 /* AquaLifeTests */ = {
+			isa = PBXGroup;
+			children = (
+				284CE208DFBDEF21DFD7BFB8 /* GoalSettingsTests.swift */,
+				5F62A2520175C71B51F9C14C /* WaterStatsCalculatorTests.swift */,
+			);
+			path = AquaLifeTests;
+			sourceTree = "<group>";
+		};
+		32DFBA8C5EF4640BE546737B /* AquaLife */ = {
+			isa = PBXGroup;
+			children = (
+				ECD28C35597E2A8B3DB2EE5D /* AquaLife.entitlements */,
+				4987893078918E3BC9DCE104 /* AquaLifeApp.swift */,
+				2EB9611B1B7EAA9B705F6C71 /* ContentView.swift */,
+				CCF3B69EE3C474D9EE3053DB /* Info.plist */,
+				E95B18BF556BA64A1F9A96D6 /* Models */,
+				753943DF72CF06B80924E509 /* Services */,
+				746A8B2B08C988F3EBE0313F /* Theme */,
+				36CAAFDD6CF8EA72D19C5E69 /* Utils */,
+				9E5B11A599F530C6B1F93BDB /* Views */,
+			);
+			path = AquaLife;
+			sourceTree = "<group>";
+		};
+		36CAAFDD6CF8EA72D19C5E69 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				E5ABAE41DEDDEEB6D3855025 /* DateHelper.swift */,
+				3FF4B4F33C795AC31E1E29FE /* GoalSettings.swift */,
+				13A7763090AA46FC3F7F77A2 /* WaterStatsCalculator.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		4F091A5A8C200F59C204DBB6 = {
+			isa = PBXGroup;
+			children = (
+				32DFBA8C5EF4640BE546737B /* AquaLife */,
+				1893F9AEC9E4704798F4D500 /* AquaLifeTests */,
+				04475F1081DF12E0F2515083 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		746A8B2B08C988F3EBE0313F /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				39497C5CEFAAC9251316C643 /* AppTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		753943DF72CF06B80924E509 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				7CAF94F8DF8DF1305742609E /* HealthKitManager.swift */,
+				C0B7CEF0215C85BBC6CFFB0E /* NotificationManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		7B02E3C1EA6B6619C9469BD8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				31B6C78521EFE266CB8F7E4A /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		8703B24DDB4E9E8B105A4859 /* CheckIn */ = {
+			isa = PBXGroup;
+			children = (
+				A410E18B042D215F3F19BC76 /* CheckInView.swift */,
+			);
+			path = CheckIn;
+			sourceTree = "<group>";
+		};
+		8D718C4DE940BF53DC343AFA /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				EAD2E3316B222F076675F50C /* CalendarHeatmapView.swift */,
+				294F46C98E8E8E5C35A73629 /* StatsView.swift */,
+			);
+			path = Statistics;
+			sourceTree = "<group>";
+		};
+		9E5B11A599F530C6B1F93BDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8703B24DDB4E9E8B105A4859 /* CheckIn */,
+				7B02E3C1EA6B6619C9469BD8 /* Profile */,
+				8D718C4DE940BF53DC343AFA /* Statistics */,
+				A6985932510A9DAD7E7112BD /* Today */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A6985932510A9DAD7E7112BD /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				F355B8E66011CD4F06304B48 /* HealthCardGrid.swift */,
+				699AEFB3C376B4ACEA2CD40C /* QuickAddWaterSheet.swift */,
+				23066EFEA6707CD1AAD5F6F4 /* TodayView.swift */,
+				7E4CEE1A65C8FF9C279DFC63 /* WaterProgressRing.swift */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
+		E95B18BF556BA64A1F9A96D6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F69A33B8D5036FD9DA251C5D /* DailyHealthSnapshot.swift */,
+				51F7A93E4F774B243055BF4D /* Habit.swift */,
+				1709E56D6F4C2AEDBDF4798F /* WaterRecord.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		67D0BABBFB76D9145978CA75 /* AquaLife */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9423993F5FBA9CD4C574AE5E /* Build configuration list for PBXNativeTarget "AquaLife" */;
+			buildPhases = (
+				6577B20AA2A7CDB4DDC9C7D8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AquaLife;
+			packageProductDependencies = (
+			);
+			productName = AquaLife;
+			productReference = 4867B633E8400BD1BBF7AC7A /* AquaLife.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DA663730EB31DBBAE1DD9697 /* AquaLifeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B85137A96CDD0DCD8E776F69 /* Build configuration list for PBXNativeTarget "AquaLifeTests" */;
+			buildPhases = (
+				AFAD8593A82CD8BC229FE53B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0F59C13715644AE72F78E402 /* PBXTargetDependency */,
+			);
+			name = AquaLifeTests;
+			packageProductDependencies = (
+			);
+			productName = AquaLifeTests;
+			productReference = DECB3431B7DFF8E084BD4C1C /* AquaLifeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1D1C0CEDBABA39473E1C5C77 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					67D0BABBFB76D9145978CA75 = {
+						DevelopmentTeam = 432G2Q5Q3E;
+					};
+					DA663730EB31DBBAE1DD9697 = {
+						DevelopmentTeam = 432G2Q5Q3E;
+					};
+				};
+			};
+			buildConfigurationList = 1CE8BA24DB1DCB7E9A13A2C9 /* Build configuration list for PBXProject "AquaLife" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 4F091A5A8C200F59C204DBB6;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 04475F1081DF12E0F2515083 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				67D0BABBFB76D9145978CA75 /* AquaLife */,
+				DA663730EB31DBBAE1DD9697 /* AquaLifeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6577B20AA2A7CDB4DDC9C7D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D11B2C401379462821169B53 /* AppTheme.swift in Sources */,
+				CA1D9E7A31925A07DE53625C /* AquaLifeApp.swift in Sources */,
+				4434D92E007E4A1BD9B7054A /* CalendarHeatmapView.swift in Sources */,
+				5280C1BD2992DE4AF6C5E085 /* CheckInView.swift in Sources */,
+				62AD26645BB06534D72DBD4A /* ContentView.swift in Sources */,
+				78FF740E433F93360FCC850A /* DailyHealthSnapshot.swift in Sources */,
+				092D79FD2559653B38BD6CD0 /* DateHelper.swift in Sources */,
+				769AAEA1D04C160BA6D8B224 /* GoalSettings.swift in Sources */,
+				C710EF2AA71FAF29FA224039 /* Habit.swift in Sources */,
+				2B5B63949DE86271E41E7A43 /* HealthCardGrid.swift in Sources */,
+				A6E75B83706E2D16F8B9A181 /* HealthKitManager.swift in Sources */,
+				A716FA0F9941FA689D6B6F47 /* NotificationManager.swift in Sources */,
+				18DC503E4F559EB78B4E7D70 /* ProfileView.swift in Sources */,
+				14E5E28A29B47D092883EFEF /* QuickAddWaterSheet.swift in Sources */,
+				3F43A4772EFD69F1A2B38969 /* StatsView.swift in Sources */,
+				CBCBE905D9CC4AFB3896C5D6 /* TodayView.swift in Sources */,
+				E84AC23B51E79F491A132042 /* WaterProgressRing.swift in Sources */,
+				61CB7B45DDB19F2D8D90E4F7 /* WaterRecord.swift in Sources */,
+				66FB3D35F32C1D6C1BB1AED9 /* WaterStatsCalculator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFAD8593A82CD8BC229FE53B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84904DF5A1764CC47ABA5717 /* GoalSettingsTests.swift in Sources */,
+				0CE777BDEE69336B19057DDB /* WaterStatsCalculatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0F59C13715644AE72F78E402 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 67D0BABBFB76D9145978CA75 /* AquaLife */;
+			targetProxy = CE6158C141C18E17CC38CA82 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		305006FEF9E6E6F998E46D6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AquaLife/AquaLife.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = AquaLife/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zouqiwei.AquaLife;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		349097BDB6906C5DFA2E297C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zouqiwei.AquaLifeTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AquaLife.app/AquaLife";
+			};
+			name = Debug;
+		};
+		534FB72BB1CDBF827DD38293 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AquaLife/AquaLife.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = AquaLife/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zouqiwei.AquaLife;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EE0F0703B7F735B5276F8EEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zouqiwei.AquaLifeTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AquaLife.app/AquaLife";
+			};
+			name = Release;
+		};
+		F57F6F79DA47A5D71C82F21E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 432G2Q5Q3E;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.10;
+			};
+			name = Debug;
+		};
+		F7770D54B6945E3C8822D9CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 432G2Q5Q3E;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.10;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1CE8BA24DB1DCB7E9A13A2C9 /* Build configuration list for PBXProject "AquaLife" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F57F6F79DA47A5D71C82F21E /* Debug */,
+				F7770D54B6945E3C8822D9CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9423993F5FBA9CD4C574AE5E /* Build configuration list for PBXNativeTarget "AquaLife" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				534FB72BB1CDBF827DD38293 /* Debug */,
+				305006FEF9E6E6F998E46D6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B85137A96CDD0DCD8E776F69 /* Build configuration list for PBXNativeTarget "AquaLifeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				349097BDB6906C5DFA2E297C /* Debug */,
+				EE0F0703B7F735B5276F8EEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1D1C0CEDBABA39473E1C5C77 /* Project object */;
+}
