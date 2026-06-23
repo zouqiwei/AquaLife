@@ -4,6 +4,9 @@ struct ProfileView: View {
     @AppStorage("dailyWaterGoal") private var dailyGoal: Double = 2000
     @AppStorage("reminderEnabled") private var reminderEnabled = false
     @AppStorage("reminderInterval") private var reminderInterval: Int = 2
+    @AppStorage("reminderStartHour") private var reminderStartHour: Int = 8
+    @AppStorage("reminderEndHour") private var reminderEndHour: Int = 22
+    @AppStorage("pauseReminderWhenGoalReached") private var pauseReminderWhenGoalReached = false
     @AppStorage("themePreference") private var themePreference: AppThemeMode = .system
 
     @ObservedObject private var healthKit = HealthKitManager.shared
@@ -106,7 +109,7 @@ struct ProfileView: View {
                                             if enabled {
                                                 let granted = await NotificationManager.shared.requestAuthorization()
                                                 if granted {
-                                                    await NotificationManager.shared.scheduleWaterReminders(intervalHours: reminderInterval)
+                                                    await rescheduleReminders()
                                                 } else {
                                                     reminderEnabled = false
                                                 }
@@ -133,9 +136,54 @@ struct ProfileView: View {
                                     .tint(AppTheme.primary)
                                     .onChange(of: reminderInterval) { _, newValue in
                                         Task {
-                                            await NotificationManager.shared.scheduleWaterReminders(intervalHours: newValue)
+                                            await rescheduleReminders(interval: newValue)
                                         }
                                     }
+                                }
+
+                                Divider().background(AppTheme.cardBorder)
+
+                                HStack {
+                                    Text("提醒时间")
+                                        .foregroundColor(AppTheme.textPrimary)
+                                    Spacer()
+                                    Picker("", selection: $reminderStartHour) {
+                                        ForEach(6...12, id: \.self) { hour in
+                                            Text("\(hour):00").tag(hour)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .tint(AppTheme.primary)
+
+                                    Text("至")
+                                        .foregroundColor(AppTheme.textSecondary)
+
+                                    Picker("", selection: $reminderEndHour) {
+                                        ForEach(18...23, id: \.self) { hour in
+                                            Text("\(hour):00").tag(hour)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .tint(AppTheme.primary)
+                                }
+                                .onChange(of: reminderStartHour) { _, _ in
+                                    Task { await rescheduleReminders() }
+                                }
+                                .onChange(of: reminderEndHour) { _, _ in
+                                    Task { await rescheduleReminders() }
+                                }
+
+                                Divider().background(AppTheme.cardBorder)
+
+                                HStack {
+                                    Label("达标后弱提醒", systemImage: "checkmark.bell.fill")
+                                        .foregroundColor(AppTheme.textPrimary)
+                                    Spacer()
+                                    Toggle("", isOn: $pauseReminderWhenGoalReached)
+                                        .tint(AppTheme.primary)
+                                        .onChange(of: pauseReminderWhenGoalReached) { _, _ in
+                                            Task { await rescheduleReminders() }
+                                        }
                                 }
                             }
                         }
@@ -235,6 +283,15 @@ struct ProfileView: View {
         let nextValue = GoalSettings.value(from: goalDraft, previous: dailyGoal)
         dailyGoal = nextValue
         goalDraft = "\(Int(nextValue))"
+    }
+
+    private func rescheduleReminders(interval: Int? = nil) async {
+        await NotificationManager.shared.scheduleWaterReminders(
+            intervalHours: interval ?? reminderInterval,
+            startHour: reminderStartHour,
+            endHour: reminderEndHour,
+            pauseWhenGoalReached: pauseReminderWhenGoalReached
+        )
     }
 }
 

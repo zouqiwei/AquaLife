@@ -18,7 +18,7 @@ struct CalendarHeatmapView: View {
     private func amountFor(_ date: Date) -> Double {
         records
             .filter { DateHelper.isSameDay($0.timestamp, date) }
-            .reduce(0) { $0 + $1.amount }
+            .reduce(0) { $0 + $1.effectiveAmount }
     }
 
     private func colorFor(amount: Double) -> Color {

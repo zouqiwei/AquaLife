@@ -14,12 +14,18 @@ class NotificationManager {
     }
 
     /// 设置周期性喝水提醒
-    func scheduleWaterReminders(intervalHours: Int, startHour: Int = 8, endHour: Int = 22) async {
+    func scheduleWaterReminders(
+        intervalHours: Int,
+        startHour: Int = 8,
+        endHour: Int = 22,
+        pauseWhenGoalReached: Bool = false
+    ) async {
         let center = UNUserNotificationCenter.current()
         // 清除旧的提醒
         center.removePendingNotificationRequests(withIdentifiers: existingReminderIds())
 
-        guard intervalHours > 0 else { return }
+        let schedule = ReminderSchedule(intervalHours: intervalHours, startHour: startHour, endHour: endHour)
+        guard !schedule.hours.isEmpty else { return }
 
         let messages = [
             "💧 该喝水了！保持水分让你更有活力",
@@ -28,16 +34,16 @@ class NotificationManager {
             "🫧 别忘了喝水！每天 8 杯是目标",
         ]
 
-        var hour = startHour
-        var index = 0
-        while hour <= endHour {
+        for (index, hour) in schedule.hours.enumerated() {
             var components = DateComponents()
             components.hour = hour
             components.minute = 0
 
             let content = UNMutableNotificationContent()
             content.title = "AquaLife 喝水提醒"
-            content.body = messages[index % messages.count]
+            content.body = pauseWhenGoalReached
+                ? "如果今天还没达标，记得慢慢补一点水"
+                : messages[index % messages.count]
             content.sound = .default
 
             let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
@@ -45,8 +51,6 @@ class NotificationManager {
             let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
 
             try? await center.add(request)
-            hour += intervalHours
-            index += 1
         }
     }
 

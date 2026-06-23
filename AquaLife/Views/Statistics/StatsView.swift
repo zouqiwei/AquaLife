@@ -13,11 +13,15 @@ struct StatsView: View {
     @State private var selectedPeriod: WaterStatsPeriod = .sevenDays
 
     private var statsRecords: [WaterStatsCalculator.Record] {
-        allRecords.map { WaterStatsCalculator.Record(date: $0.timestamp, amount: $0.amount) }
+        allRecords.map { WaterStatsCalculator.Record(date: $0.timestamp, amount: $0.effectiveAmount) }
     }
 
     private var summary: WaterStatsCalculator.Summary {
         WaterStatsCalculator.summary(records: statsRecords, goal: dailyGoal, period: selectedPeriod)
+    }
+
+    private var achievement: WaterAchievement {
+        WaterAchievementCalculator.achievement(records: statsRecords, goal: dailyGoal)
     }
 
     var body: some View {
@@ -69,6 +73,23 @@ struct StatsView: View {
                             unit: "",
                             icon: summary.trend.systemImage,
                             color: summary.trend == .decreasing ? AppTheme.heartColor : AppTheme.secondary
+                        )
+                    }
+
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                        StatSummaryCard(
+                            title: "连续达标",
+                            value: "\(achievement.currentStreak)",
+                            unit: "天",
+                            icon: "flame.fill",
+                            color: AppTheme.stepsColor
+                        )
+                        StatSummaryCard(
+                            title: "最佳纪录",
+                            value: "\(achievement.bestStreak)",
+                            unit: "天",
+                            icon: "trophy.fill",
+                            color: AppTheme.secondary
                         )
                     }
 

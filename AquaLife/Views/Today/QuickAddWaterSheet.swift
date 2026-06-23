@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct QuickAddWaterSheet: View {
-    let onAdd: (Double) -> Void
+    let onAdd: (Double, Date, String?, WaterDrinkType) -> Void
     @Environment(\.dismiss) private var dismiss
     @State private var inputText = ""
+    @State private var noteText = ""
+    @State private var timestamp = Date()
+    @State private var drinkType: WaterDrinkType = .water
     @FocusState private var isFocused: Bool
 
     private var parsedAmount: Double? {
@@ -15,7 +18,8 @@ struct QuickAddWaterSheet: View {
             ZStack {
                 AppTheme.backgroundGradient.ignoresSafeArea()
 
-                VStack(spacing: 32) {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 24) {
                     // Icon + title
                     VStack(spacing: 8) {
                         Image(systemName: "drop.fill")
@@ -63,12 +67,46 @@ struct QuickAddWaterSheet: View {
                         }
                     }
 
+                    HStack {
+                        Text("饮品类型")
+                            .foregroundColor(AppTheme.textPrimary)
+                        Spacer()
+                        Picker("", selection: $drinkType) {
+                            ForEach(WaterDrinkType.allCases) { type in
+                                Label(type.title, systemImage: type.systemImage).tag(type)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .tint(AppTheme.primary)
+                    }
+                    .padding(14)
+                    .background(AppTheme.ringTrackColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.horizontal, 28)
+
+                    DatePicker("记录时间", selection: $timestamp, displayedComponents: [.date, .hourAndMinute])
+                        .foregroundColor(AppTheme.textPrimary)
+                        .tint(AppTheme.primary)
+                        .padding(14)
+                        .background(AppTheme.ringTrackColor)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .padding(.horizontal, 28)
+
+                    TextField("备注（可选）", text: $noteText)
+                        .textInputAutocapitalization(.never)
+                        .foregroundColor(AppTheme.textPrimary)
+                        .padding(14)
+                        .background(AppTheme.ringTrackColor)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .padding(.horizontal, 28)
+
                     Spacer()
 
                     // Confirm button
                     Button {
                         if let amount = parsedAmount, amount > 0 {
-                            onAdd(amount)
+                            let note = noteText.trimmingCharacters(in: .whitespacesAndNewlines)
+                            onAdd(amount, timestamp, note.isEmpty ? nil : note, drinkType)
                             dismiss()
                         }
                     } label: {
@@ -90,6 +128,7 @@ struct QuickAddWaterSheet: View {
                     .disabled(parsedAmount == nil || parsedAmount! <= 0)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 32)
+                    }
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
