@@ -20,6 +20,10 @@ struct StatsView: View {
         WaterStatsCalculator.summary(records: statsRecords, goal: dailyGoal, period: selectedPeriod)
     }
 
+    private var insight: WaterStatsCalculator.Insight {
+        WaterStatsCalculator.insight(records: statsRecords, goal: dailyGoal, period: selectedPeriod)
+    }
+
     private var achievement: WaterAchievement {
         WaterAchievementCalculator.achievement(records: statsRecords, goal: dailyGoal)
     }
@@ -44,6 +48,8 @@ struct StatsView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+
+                    TrendInsightCard(insight: insight)
 
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                         StatSummaryCard(
@@ -186,6 +192,67 @@ struct StatSummaryCard: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .glassCard()
+    }
+}
+
+struct TrendInsightCard: View {
+    let insight: WaterStatsCalculator.Insight
+
+    private var accentColor: Color {
+        switch insight.direction {
+        case .improving:
+            return AppTheme.secondary
+        case .declining:
+            return AppTheme.heartColor
+        case .steady, .insufficientData:
+            return AppTheme.primary
+        }
+    }
+
+    private var symbol: String {
+        switch insight.direction {
+        case .improving:
+            return "arrow.up.right.circle.fill"
+        case .declining:
+            return "arrow.down.right.circle.fill"
+        case .steady:
+            return "equal.circle.fill"
+        case .insufficientData:
+            return "sparkles"
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: symbol)
+                    .font(.system(size: 20))
+                    .foregroundColor(accentColor)
+                    .frame(width: 34, height: 34)
+                    .background(accentColor.opacity(0.14))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(insight.title)
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(AppTheme.textPrimary)
+                    Text(insight.message)
+                        .font(.system(size: 12))
+                        .foregroundColor(AppTheme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            Text(insight.action)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(accentColor)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 8)
+                .background(accentColor.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .padding(16)
         .glassCard()
     }
 }

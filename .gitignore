@@ -63,3 +63,9 @@ playground.xcworkspace
 
 # Swift Package Manager
 # Package.resolved
+
+# Local git worktrees
+.worktrees/
+
+# Local brainstorming previews
+.superpowers/

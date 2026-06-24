@@ -228,7 +228,9 @@ struct TodayView: View {
         let advice = WaterIntakeAdvisor.advice(
             current: vm.todayWaterMl,
             goal: dailyGoal,
-            hour: Calendar.current.component(.hour, from: .now)
+            now: .now,
+            startHour: reminderStartHour,
+            endHour: reminderEndHour
         )
 
         return HStack(alignment: .top, spacing: 12) {
@@ -248,9 +250,33 @@ struct TodayView: View {
                     .foregroundColor(AppTheme.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
                 if advice.status != .completed {
+                    if let nextTime = advice.nextSuggestedTime,
+                       let nextAmount = advice.nextSuggestedAmount {
+                        HStack(spacing: 8) {
+                            Image(systemName: "clock.fill")
+                                .font(.system(size: 11))
+                            Text("下一杯 \(DateHelper.formatTime(nextTime))")
+                                .font(.system(size: 12, weight: .semibold))
+                            Text("· \(Int(nextAmount)) ml")
+                                .font(.system(size: 12, weight: .semibold))
+                        }
+                        .foregroundColor(AppTheme.primaryDark)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
+                        .background(AppTheme.primary.opacity(0.12))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
                     Text("按当前时间，建议已喝到约 \(Int(advice.expectedProgress)) ml")
                         .font(.system(size: 11))
                         .foregroundColor(AppTheme.textSecondary.opacity(0.75))
+                    HStack(spacing: 6) {
+                        ForEach(0..<max(advice.recommendedServings, 1), id: \.self) { index in
+                            RoundedRectangle(cornerRadius: 999)
+                                .fill(index == 0 ? AppTheme.primary : AppTheme.primary.opacity(0.22))
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 6)
+                        }
+                    }
                 }
             }
             Spacer()

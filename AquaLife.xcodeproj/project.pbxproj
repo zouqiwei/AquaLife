@@ -59,6 +59,7 @@
 		4987893078918E3BC9DCE104 /* AquaLifeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaLifeApp.swift; sourceTree = "<group>"; };
 		51F7A93E4F774B243055BF4D /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 		5F62A2520175C71B51F9C14C /* WaterStatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterStatsCalculatorTests.swift; sourceTree = "<group>"; };
+		62D635C44B8543E504202861 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		699AEFB3C376B4ACEA2CD40C /* QuickAddWaterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddWaterSheet.swift; sourceTree = "<group>"; };
 		6BEEFC797A47FE43A748C7B1 /* WaterFeatureRulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterFeatureRulesTests.swift; sourceTree = "<group>"; };
 		7CAF94F8DF8DF1305742609E /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				284CE208DFBDEF21DFD7BFB8 /* GoalSettingsTests.swift */,
+				62D635C44B8543E504202861 /* Info.plist */,
 				6BEEFC797A47FE43A748C7B1 /* WaterFeatureRulesTests.swift */,
 				9C11D29E03200159E3EA2AD3 /* WaterIntakeAdviceTests.swift */,
 				5F62A2520175C71B51F9C14C /* WaterStatsCalculatorTests.swift */,
@@ -359,6 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = AquaLifeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -392,6 +395,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = AquaLifeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

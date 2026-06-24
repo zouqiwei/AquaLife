@@ -49,6 +49,50 @@ final class WaterStatsCalculatorTests: XCTestCase {
         XCTAssertEqual(WaterStatsCalculator.trend(firstHalfAverage: 1000, secondHalfAverage: 1090), .stable)
     }
 
+    func testInsightHighlightsImprovingTrendAndWeakWindow() {
+        let reference = date(2026, 6, 22)
+        let records = [
+            WaterStatsCalculator.Record(date: date(2026, 6, 16, hour: 9), amount: 400),
+            WaterStatsCalculator.Record(date: date(2026, 6, 16, hour: 19), amount: 700),
+            WaterStatsCalculator.Record(date: date(2026, 6, 17, hour: 10), amount: 500),
+            WaterStatsCalculator.Record(date: date(2026, 6, 17, hour: 20), amount: 800),
+            WaterStatsCalculator.Record(date: date(2026, 6, 20, hour: 10), amount: 1100),
+            WaterStatsCalculator.Record(date: date(2026, 6, 20, hour: 20), amount: 900),
+            WaterStatsCalculator.Record(date: date(2026, 6, 21, hour: 9), amount: 1000),
+            WaterStatsCalculator.Record(date: date(2026, 6, 21, hour: 20), amount: 1000),
+            WaterStatsCalculator.Record(date: date(2026, 6, 22, hour: 10), amount: 1050),
+            WaterStatsCalculator.Record(date: date(2026, 6, 22, hour: 19), amount: 950),
+        ]
+
+        let insight = WaterStatsCalculator.insight(
+            records: records,
+            goal: 2000,
+            period: .sevenDays,
+            endingAt: reference,
+            calendar: calendar
+        )
+
+        XCTAssertEqual(insight.direction, .improving)
+        XCTAssertEqual(insight.weakWindow, "下午 12:00-18:00")
+        XCTAssertTrue(insight.title.contains("变好"))
+        XCTAssertTrue(insight.message.contains("下午 12:00-18:00"))
+        XCTAssertTrue(insight.action.contains("下一杯"))
+    }
+
+    func testInsightFallsBackForSparseData() {
+        let insight = WaterStatsCalculator.insight(
+            records: [],
+            goal: 2000,
+            period: .sevenDays,
+            endingAt: date(2026, 6, 22),
+            calendar: calendar
+        )
+
+        XCTAssertEqual(insight.direction, .insufficientData)
+        XCTAssertEqual(insight.weakWindow, "下午 12:00-18:00")
+        XCTAssertTrue(insight.title.contains("先建立"))
+    }
+
     private func date(_ year: Int, _ month: Int, _ day: Int, hour: Int = 0) -> Date {
         DateComponents(calendar: calendar, year: year, month: month, day: day, hour: hour).date!
     }
