@@ -7,11 +7,14 @@ class TodayViewModel: ObservableObject {
     @Published var stepCount: Int = 0
     @Published var sleepMinutes: Int = 0
     @Published var heartRate: Double? = nil
+    @Published var weatherBand: WeatherHydrationBand? = nil
+    @Published var weatherSnapshot: WeatherHydrationSnapshot? = nil
     @Published var isLoadingHealth = true
     @Published var showAddWater = false
     @Published var healthKitStatus: HealthKitStatus = .unknown
 
     let hk = HealthKitManager.shared
+    let weatherProvider = WeatherHydrationProvider()
 
     func loadAll() async {
         isLoadingHealth = true
@@ -19,12 +22,15 @@ class TodayViewModel: ObservableObject {
         async let steps = hk.fetchTodaySteps()
         async let sleep = hk.fetchLastNightSleep()
         async let heart = hk.fetchLatestHeartRate()
+        async let currentWeather = weatherProvider.fetchCurrentWeather()
 
-        let (w, s, sl, h) = await (water, steps, sleep, heart)
+        let (w, s, sl, h, weather) = await (water, steps, sleep, heart, currentWeather)
         todayWaterMl = w
         stepCount = s
         sleepMinutes = sl
         heartRate = h
+        weatherSnapshot = weather
+        weatherBand = weather?.band
         healthKitStatus = hk.status
         isLoadingHealth = false
     }
@@ -60,15 +66,20 @@ struct TodayView: View {
 
     @StateObject private var vm = TodayViewModel()
     @AppStorage("dailyWaterGoal") private var dailyGoal: Double = 2000
+    @AppStorage("preferredDailyWaterGoal") private var preferredDailyGoal: Double = 0
     @AppStorage("reminderEnabled") private var reminderEnabled = false
     @AppStorage("reminderInterval") private var reminderInterval: Int = 2
     @AppStorage("reminderStartHour") private var reminderStartHour: Int = 8
     @AppStorage("reminderEndHour") private var reminderEndHour: Int = 22
     @AppStorage("pauseReminderWhenGoalReached") private var pauseReminderWhenGoalReached = false
+    @AppStorage("personalizedGoalLastRecommendedGoal") private var lastRecommendedGoal: Double = 0
+    @AppStorage("personalizedGoalLastRefreshDay") private var lastRecommendationDay = ""
+    @AppStorage("personalizedGoalAppliedDay") private var personalizedGoalAppliedDay = ""
     @State private var showQuickAdd = false
     @State private var recentlyDeletedRecord: DeletedWaterRecord?
     @State private var showUndoDelete = false
     @State private var editingRecord: WaterRecord?
+    @State private var personalizedRecommendation: PersonalizedGoalRecommendation?
 
     private var todayRecords: [WaterRecord] {
         allRecords.filter { DateHelper.isSameDay($0.timestamp, .now) }
@@ -82,6 +93,7 @@ struct TodayView: View {
                 VStack(spacing: 24) {
                     headerSection
                     waterRingSection
+                    personalizedGoalSection
                     smartAdviceSection
                     quickAddSection
                     healthKitStatusSection
@@ -97,7 +109,13 @@ struct TodayView: View {
             let _ = await HealthKitManager.shared.requestAuthorization()
             vm.healthKitStatus = HealthKitManager.shared.status
             await vm.loadAll()
+            syncPreferredGoalIfNeeded()
+            refreshPersonalizedRecommendation()
         }
+        .onChange(of: vm.stepCount) { _, _ in refreshPersonalizedRecommendation() }
+        .onChange(of: vm.sleepMinutes) { _, _ in refreshPersonalizedRecommendation() }
+        .onChange(of: vm.weatherBand) { _, _ in refreshPersonalizedRecommendation() }
+        .onChange(of: preferredDailyGoal) { _, _ in refreshPersonalizedRecommendation() }
         .sheet(isPresented: $showQuickAdd) {
             QuickAddWaterSheet { ml, timestamp, note, drinkType in
                 Task {
@@ -182,6 +200,80 @@ struct TodayView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
         .glassCard()
+    }
+
+    @ViewBuilder
+    private var personalizedGoalSection: some View {
+        if let recommendation = personalizedRecommendation {
+            VStack(alignment: .leading, spacing: 14) {
+                HStack(alignment: .top, spacing: 12) {
+                    Image(systemName: recommendation.shouldHighlightUpdate ? "target" : "drop.circle.fill")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(AppTheme.primary)
+                        .frame(width: 36, height: 36)
+                        .background(AppTheme.primary.opacity(0.14))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("今日目标建议")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(AppTheme.textPrimary)
+                        Text("建议喝到 \(Int(recommendation.goal)) ml")
+                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                            .foregroundColor(AppTheme.textPrimary)
+                        Text(recommendation.explanation)
+                            .font(.system(size: 12))
+                            .foregroundColor(AppTheme.textSecondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer()
+                }
+
+                if !recommendation.factors.isEmpty {
+                    HStack(spacing: 8) {
+                        ForEach(recommendation.factors, id: \.kind) { factor in
+                            Text(factorChipText(for: factor))
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundColor(AppTheme.primaryDark)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(AppTheme.primary.opacity(0.12))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                    }
+                }
+
+                Text(vm.weatherSnapshot?.statusLine ?? "当前天气暂不可用")
+                    .font(.system(size: 11))
+                    .foregroundColor(AppTheme.textSecondary)
+
+                HStack {
+                    Text(hasAppliedPersonalizedGoalToday(recommendation) ? "今天已应用这条建议" : "会在今天随步数和天气轻微刷新")
+                        .font(.system(size: 11))
+                        .foregroundColor(AppTheme.textSecondary)
+                    Spacer()
+                    Button {
+                        applyPersonalizedGoal(recommendation)
+                    } label: {
+                        Text(hasAppliedPersonalizedGoalToday(recommendation) ? "已应用" : "应用建议")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(hasAppliedPersonalizedGoalToday(recommendation) ? AppTheme.textSecondary : .white)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 10)
+                            .background(
+                                hasAppliedPersonalizedGoalToday(recommendation)
+                                ? AppTheme.textSecondary.opacity(0.12)
+                                : AppTheme.primary
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(hasAppliedPersonalizedGoalToday(recommendation))
+                }
+            }
+            .padding(16)
+            .glassCard()
+        }
     }
 
     private var quickAddSection: some View {
@@ -428,6 +520,62 @@ struct TodayView: View {
                     pauseWhenGoalReached: pauseReminderWhenGoalReached
                 )
             }
+        }
+    }
+
+    private func refreshPersonalizedRecommendation() {
+        let previousGoal = lastRecommendationDay == todayKey && lastRecommendedGoal > 0
+            ? lastRecommendedGoal
+            : nil
+
+        let recommendation = PersonalizedGoalAdvisor.recommendation(
+            input: PersonalizedGoalInput(
+                baselineGoal: recommendedBaselineGoal,
+                stepCount: vm.stepCount > 0 ? vm.stepCount : nil,
+                sleepMinutes: vm.sleepMinutes > 0 ? vm.sleepMinutes : nil,
+                weatherBand: vm.weatherBand,
+                previousRecommendedGoal: previousGoal,
+                now: .now
+            )
+        )
+
+        personalizedRecommendation = recommendation
+        lastRecommendedGoal = recommendation.goal
+        lastRecommendationDay = todayKey
+    }
+
+    private func applyPersonalizedGoal(_ recommendation: PersonalizedGoalRecommendation) {
+        dailyGoal = recommendation.goal
+        personalizedGoalAppliedDay = todayKey
+        updateRemindersForGoalProgress()
+    }
+
+    private func hasAppliedPersonalizedGoalToday(_ recommendation: PersonalizedGoalRecommendation) -> Bool {
+        personalizedGoalAppliedDay == todayKey && dailyGoal == recommendation.goal
+    }
+
+    private func syncPreferredGoalIfNeeded() {
+        if preferredDailyGoal <= 0 {
+            preferredDailyGoal = dailyGoal
+        }
+    }
+
+    private var recommendedBaselineGoal: Double {
+        GoalSettings.clamp(preferredDailyGoal > 0 ? preferredDailyGoal : dailyGoal)
+    }
+
+    private var todayKey: String {
+        DateHelper.storageDayKey(for: .now)
+    }
+
+    private func factorChipText(for factor: PersonalizedGoalFactor) -> String {
+        switch factor.kind {
+        case .activity:
+            return "+\(Int(factor.delta)) ml 活动"
+        case .recovery:
+            return "+\(Int(factor.delta)) ml 睡眠"
+        case .weather:
+            return "+\(Int(factor.delta)) ml 天气"
         }
     }
 }

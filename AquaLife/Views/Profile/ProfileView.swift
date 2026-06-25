@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @AppStorage("dailyWaterGoal") private var dailyGoal: Double = 2000
+    @AppStorage("preferredDailyWaterGoal") private var preferredDailyGoal: Double = 0
     @AppStorage("reminderEnabled") private var reminderEnabled = false
     @AppStorage("reminderInterval") private var reminderInterval: Int = 2
     @AppStorage("reminderStartHour") private var reminderStartHour: Int = 8
@@ -11,6 +12,11 @@ struct ProfileView: View {
 
     @ObservedObject private var healthKit = HealthKitManager.shared
     @State private var goalDraft: String = ""
+    @State private var stepCount: Int?
+    @State private var sleepMinutes: Int?
+    @State private var weatherBand: WeatherHydrationBand?
+    @State private var weatherSnapshot: WeatherHydrationSnapshot?
+    @State private var recommendation: PersonalizedGoalRecommendation?
 
     var body: some View {
         ZStack {
@@ -76,8 +82,11 @@ struct ProfileView: View {
                                 ForEach([1500, 2000, 2500, 3000], id: \.self) { goal in
                                     Button("\(goal)") {
                                         withAnimation {
-                                            dailyGoal = GoalSettings.clamp(Double(goal))
+                                            let nextGoal = GoalSettings.clamp(Double(goal))
+                                            preferredDailyGoal = nextGoal
+                                            dailyGoal = nextGoal
                                             syncGoalDraft()
+                                            refreshRecommendation()
                                         }
                                     }
                                     .font(.system(size: 13))
@@ -92,6 +101,46 @@ struct ProfileView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 8))
                                 }
                             }
+                        }
+                    }
+
+                    SettingsSection(title: "个性化建议") {
+                        VStack(alignment: .leading, spacing: 14) {
+                            HStack(alignment: .top, spacing: 10) {
+                                Image(systemName: "target")
+                                    .foregroundColor(AppTheme.primary)
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(recommendationTitle)
+                                        .font(.system(size: 15, weight: .semibold))
+                                        .foregroundColor(AppTheme.textPrimary)
+                                    Text(recommendationSummary)
+                                        .font(.system(size: 12))
+                                        .foregroundColor(AppTheme.textSecondary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                                Spacer()
+                            }
+
+                            if let recommendation, !recommendation.factors.isEmpty {
+                                HStack(spacing: 8) {
+                                    ForEach(recommendation.factors, id: \.kind) { factor in
+                                        Text(factorChipText(for: factor))
+                                            .font(.system(size: 11, weight: .semibold))
+                                            .foregroundColor(AppTheme.primaryDark)
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 6)
+                                            .background(AppTheme.primary.opacity(0.12))
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    }
+                                }
+                            }
+
+                            Divider().background(AppTheme.cardBorder)
+
+                            Text(weatherSnapshot?.profileSummary
+                                 ?? "天气数据暂不可用，当前建议会基于步数和睡眠继续更新。")
+                                .font(.system(size: 11))
+                                .foregroundColor(AppTheme.textSecondary)
                         }
                     }
 
@@ -268,7 +317,11 @@ struct ProfileView: View {
             }
         }
         .onAppear {
+            if preferredDailyGoal <= 0 {
+                preferredDailyGoal = GoalSettings.clamp(dailyGoal)
+            }
             syncGoalDraft()
+            Task { await loadRecommendationContext() }
         }
         .onDisappear {
             commitGoalDraft()
@@ -276,13 +329,15 @@ struct ProfileView: View {
     }
 
     private func syncGoalDraft() {
-        goalDraft = "\(Int(GoalSettings.clamp(dailyGoal)))"
+        goalDraft = "\(Int(GoalSettings.clamp(preferredDailyGoal > 0 ? preferredDailyGoal : dailyGoal)))"
     }
 
     private func commitGoalDraft() {
-        let nextValue = GoalSettings.value(from: goalDraft, previous: dailyGoal)
+        let nextValue = GoalSettings.value(from: goalDraft, previous: preferredDailyGoal > 0 ? preferredDailyGoal : dailyGoal)
+        preferredDailyGoal = nextValue
         dailyGoal = nextValue
         goalDraft = "\(Int(nextValue))"
+        refreshRecommendation()
     }
 
     private func rescheduleReminders(interval: Int? = nil) async {
@@ -292,6 +347,57 @@ struct ProfileView: View {
             endHour: reminderEndHour,
             pauseWhenGoalReached: pauseReminderWhenGoalReached
         )
+    }
+
+    private var recommendationTitle: String {
+        if let recommendation {
+            return "今天建议目标 \(Int(recommendation.goal)) ml"
+        }
+        return "今天建议目标暂不可用"
+    }
+
+    private var recommendationSummary: String {
+        if let recommendation {
+            return recommendation.explanation
+        }
+        return "读取到健康数据后，会结合步数、睡眠和天气给出建议。"
+    }
+
+    private func loadRecommendationContext() async {
+        async let steps = healthKit.fetchTodaySteps()
+        async let sleep = healthKit.fetchLastNightSleep()
+        async let weather = WeatherHydrationProvider().fetchCurrentWeather()
+
+        let (loadedSteps, loadedSleep, loadedWeather) = await (steps, sleep, weather)
+        stepCount = loadedSteps > 0 ? loadedSteps : nil
+        sleepMinutes = loadedSleep > 0 ? loadedSleep : nil
+        weatherSnapshot = loadedWeather
+        weatherBand = loadedWeather?.band
+        refreshRecommendation()
+    }
+
+    private func refreshRecommendation() {
+        recommendation = PersonalizedGoalAdvisor.recommendation(
+            input: PersonalizedGoalInput(
+                baselineGoal: GoalSettings.clamp(preferredDailyGoal > 0 ? preferredDailyGoal : dailyGoal),
+                stepCount: stepCount,
+                sleepMinutes: sleepMinutes,
+                weatherBand: weatherBand,
+                previousRecommendedGoal: nil,
+                now: .now
+            )
+        )
+    }
+
+    private func factorChipText(for factor: PersonalizedGoalFactor) -> String {
+        switch factor.kind {
+        case .activity:
+            return "+\(Int(factor.delta)) ml 活动"
+        case .recovery:
+            return "+\(Int(factor.delta)) ml 睡眠"
+        case .weather:
+            return "+\(Int(factor.delta)) ml 天气"
+        }
     }
 }
 

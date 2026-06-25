@@ -23,6 +23,14 @@ enum DateHelper {
         return fmt.string(from: date)
     }
 
+    static func storageDayKey(for date: Date) -> String {
+        let fmt = DateFormatter()
+        fmt.calendar = Calendar(identifier: .gregorian)
+        fmt.locale = Locale(identifier: "en_US_POSIX")
+        fmt.dateFormat = "yyyy-MM-dd"
+        return fmt.string(from: date)
+    }
+
     static func lastDays(_ count: Int, endingAt date: Date = .now) -> [Date] {
         guard count > 0 else { return [] }
         let end = startOfDay(date)

@@ -18,10 +18,17 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>wechat</string>
+		<string>weixin</string>
+	</array>
 	<key>NSHealthShareUsageDescription</key>
 	<string>AquaLife 需要读取您的健康数据（步数、睡眠、心率），用于展示今日健康概览。</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>AquaLife 需要写入饮水数据到健康 App，以便统一管理您的饮水记录。</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>AquaLife 需要获取您的位置，用于读取当前天气并调整今日饮水建议。</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>background-processing</string>
