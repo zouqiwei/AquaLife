@@ -1,3 +1,10 @@
+//
+//  HealthKitManager.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import HealthKit
 import Foundation
 
@@ -52,6 +59,7 @@ class HealthKitManager: ObservableObject {
         if let sleep = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) { types.insert(sleep) }
         if let heart = HKObjectType.quantityType(forIdentifier: .heartRate) { types.insert(heart) }
         if let water = HKObjectType.quantityType(forIdentifier: .dietaryWater) { types.insert(water) }
+        if let cal = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned) { types.insert(cal) }
         return types
     }()
 
@@ -218,6 +226,61 @@ class HealthKitManager: ObservableObject {
                 self.store.execute(query)
             }
             results.append((date: day, amount: amount))
+        }
+        return results
+    }
+
+    // MARK: - Active Calories
+    /// 读取今日主动消耗卡路里（kcal）
+    func fetchTodayActiveCalories() async -> Double {
+        guard let calType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned) else { return 0 }
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: .now, options: .strictStartDate)
+
+        return await withCheckedContinuation { continuation in
+            let query = HKStatisticsQuery(
+                quantityType: calType,
+                quantitySamplePredicate: predicate,
+                options: .cumulativeSum
+            ) { _, result, error in
+                if error != nil {
+                    Task { @MainActor in self.markReadFailed() }
+                    continuation.resume(returning: 0)
+                    return
+                }
+                let kcal = result?.sumQuantity()?.doubleValue(for: .kilocalorie()) ?? 0
+                continuation.resume(returning: kcal)
+            }
+            store.execute(query)
+        }
+    }
+
+    // MARK: - Weekly Steps
+    /// 读取最近 7 天每日步数
+    func fetchWeeklySteps() async -> [(date: Date, steps: Int)] {
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return [] }
+        let calendar = Calendar.current
+        let now = Date()
+        var results: [(date: Date, steps: Int)] = []
+
+        for dayOffset in (0..<7).reversed() {
+            guard let day = calendar.date(byAdding: .day, value: -dayOffset, to: calendar.startOfDay(for: now)),
+                  let nextDay = calendar.date(byAdding: .day, value: 1, to: day) else { continue }
+
+            let predicate = HKQuery.predicateForSamples(withStart: day, end: nextDay, options: .strictStartDate)
+            let steps: Int = await withCheckedContinuation { continuation in
+                let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, error in
+                    if error != nil {
+                        Task { @MainActor in self.markReadFailed() }
+                        continuation.resume(returning: 0)
+                        return
+                    }
+                    let val = Int(result?.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+                    continuation.resume(returning: val)
+                }
+                self.store.execute(query)
+            }
+            results.append((date: day, steps: steps))
         }
         return results
     }

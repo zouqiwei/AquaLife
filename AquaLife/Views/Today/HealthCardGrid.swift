@@ -1,3 +1,10 @@
+//
+//  HealthCardGrid.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import SwiftUI
 
 struct HealthCard: View {
@@ -7,6 +14,7 @@ struct HealthCard: View {
     let unit: String
     let color: Color
     let target: String
+    var progress: Double? = nil  // 0.0 ~ 1.0, shows mini bar when provided
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -40,6 +48,22 @@ struct HealthCard: View {
                 Text(target)
                     .font(.system(size: 10))
                     .foregroundColor(color.opacity(0.7))
+            }
+
+            // Mini progress bar
+            if let p = progress {
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(color.opacity(0.15))
+                            .frame(height: 5)
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(color)
+                            .frame(width: geo.size.width * min(p, 1.0), height: 5)
+                            .animation(.spring(response: 0.5), value: p)
+                    }
+                }
+                .frame(height: 5)
             }
         }
         .padding(14)

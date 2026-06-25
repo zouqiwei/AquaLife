@@ -1,3 +1,10 @@
+//
+//  WeatherHydrationProvider.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/25.
+//
+
 import CoreLocation
 import Foundation
 import WeatherKit

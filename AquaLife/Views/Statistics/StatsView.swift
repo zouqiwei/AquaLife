@@ -1,3 +1,10 @@
+//
+//  StatsView.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import SwiftUI
 import Charts
 import SwiftData

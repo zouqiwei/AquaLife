@@ -1,3 +1,10 @@
+//
+//  PersonalizedGoalAdvisor.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/25.
+//
+
 import Foundation
 
 enum WeatherHydrationBand: Equatable {

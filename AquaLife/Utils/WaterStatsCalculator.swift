@@ -1,3 +1,10 @@
+//
+//  WaterStatsCalculator.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import Foundation
 
 enum WaterStatsPeriod: Int, CaseIterable, Identifiable {

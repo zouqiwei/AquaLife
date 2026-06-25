@@ -1,3 +1,10 @@
+//
+//  ContentView.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import SwiftUI
 
 struct ContentView: View {
@@ -12,23 +19,29 @@ struct ContentView: View {
                 }
                 .tag(0)
 
+            FitnessView()
+                .tabItem {
+                    Label("运动", systemImage: "figure.run")
+                }
+                .tag(1)
+
             StatsView()
                 .tabItem {
                     Label("统计", systemImage: "chart.line.uptrend.xyaxis")
                 }
-                .tag(1)
+                .tag(2)
 
             CheckInView()
                 .tabItem {
                     Label("打卡", systemImage: "checkmark.seal.fill")
                 }
-                .tag(2)
+                .tag(3)
 
             ProfileView()
                 .tabItem {
                     Label("我的", systemImage: "person.fill")
                 }
-                .tag(3)
+                .tag(4)
         }
         .tint(AppTheme.primary)
         .preferredColorScheme(themePreference.colorScheme)

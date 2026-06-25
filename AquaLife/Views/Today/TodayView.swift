@@ -1,3 +1,10 @@
+//
+//  TodayView.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import SwiftUI
 import SwiftData
 
@@ -390,7 +397,8 @@ struct TodayView: View {
                     value: vm.isLoadingHealth ? "--" : "\(vm.stepCount)",
                     unit: "步",
                     color: AppTheme.stepsColor,
-                    target: "目标 10,000"
+                    target: "目标 10,000",
+                    progress: vm.isLoadingHealth ? nil : min(Double(vm.stepCount) / 10_000, 1.0)
                 )
                 HealthCard(
                     icon: "moon.zzz.fill",

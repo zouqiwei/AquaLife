@@ -1,3 +1,10 @@
+//
+//  CalendarHeatmapView.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import SwiftUI
 
 struct CalendarHeatmapView: View {

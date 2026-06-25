@@ -1,3 +1,10 @@
+//
+//  DailyHealthSnapshot.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import SwiftData
 import Foundation
 

@@ -1,3 +1,10 @@
+//
+//  AppTheme.swift
+//  AquaLife
+//
+//  Created by zouqiwei on 2026/06/23.
+//
+
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
@@ -52,6 +59,7 @@ enum AppTheme {
     static let sleepColor = Color(hex: "#A29BFE")
     static let heartColor = Color(hex: "#FF6B6B")
     static let waterColor = Color(hex: "#2EC4F0")
+    static let caloriesColor = Color(hex: "#FF6CAE")
 
     // Text
     static let textPrimary = dynamicColor(light: "#102033", dark: "#FFFFFF")

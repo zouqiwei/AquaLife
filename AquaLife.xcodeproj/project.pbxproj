@@ -17,6 +17,7 @@
 		43DB5F708E7DF99C9137A75C /* PersonalizedGoalAdvisorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DC88114552A4FDB81D462A /* PersonalizedGoalAdvisorTests.swift */; };
 		4434D92E007E4A1BD9B7054A /* CalendarHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD2E3316B222F076675F50C /* CalendarHeatmapView.swift */; };
 		5280C1BD2992DE4AF6C5E085 /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A410E18B042D215F3F19BC76 /* CheckInView.swift */; };
+		FA220000000000000000CAFE /* FitnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA110000000000000000CAFE /* FitnessView.swift */; };
 		61CB7B45DDB19F2D8D90E4F7 /* WaterRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1709E56D6F4C2AEDBDF4798F /* WaterRecord.swift */; };
 		62AD26645BB06534D72DBD4A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB9611B1B7EAA9B705F6C71 /* ContentView.swift */; };
 		66FB3D35F32C1D6C1BB1AED9 /* WaterStatsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A7763090AA46FC3F7F77A2 /* WaterStatsCalculator.swift */; };
@@ -76,6 +77,7 @@
 		9C11D29E03200159E3EA2AD3 /* WaterIntakeAdviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterIntakeAdviceTests.swift; sourceTree = "<group>"; };
 		A38D013862E7903C7A3A33FC /* Pods_AquaLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AquaLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A410E18B042D215F3F19BC76 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
+		FA110000000000000000CAFE /* FitnessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessView.swift; sourceTree = "<group>"; };
 		C0B7CEF0215C85BBC6CFFB0E /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		CCD9ED98A33F95A6037B5C24 /* WaterAchievementCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterAchievementCalculator.swift; sourceTree = "<group>"; };
 		CCF3B69EE3C474D9EE3053DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -206,6 +208,14 @@
 			path = CheckIn;
 			sourceTree = "<group>";
 		};
+		FA330000000000000000CAFE /* Fitness */ = {
+			isa = PBXGroup;
+			children = (
+				FA110000000000000000CAFE /* FitnessView.swift */,
+			);
+			path = Fitness;
+			sourceTree = "<group>";
+		};
 		8D718C4DE940BF53DC343AFA /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				8703B24DDB4E9E8B105A4859 /* CheckIn */,
+				FA330000000000000000CAFE /* Fitness */,
 				7B02E3C1EA6B6619C9469BD8 /* Profile */,
 				8D718C4DE940BF53DC343AFA /* Statistics */,
 				A6985932510A9DAD7E7112BD /* Today */,
@@ -361,6 +372,7 @@
 				CA1D9E7A31925A07DE53625C /* AquaLifeApp.swift in Sources */,
 				4434D92E007E4A1BD9B7054A /* CalendarHeatmapView.swift in Sources */,
 				5280C1BD2992DE4AF6C5E085 /* CheckInView.swift in Sources */,
+				FA220000000000000000CAFE /* FitnessView.swift in Sources */,
 				62AD26645BB06534D72DBD4A /* ContentView.swift in Sources */,
 				78FF740E433F93360FCC850A /* DailyHealthSnapshot.swift in Sources */,
 				092D79FD2559653B38BD6CD0 /* DateHelper.swift in Sources */,
