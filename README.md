@@ -48,7 +48,14 @@ AquaLife 是一款设计精美、智能的 iOS 健康习惯追踪应用。它不
 > 为了体验完整的运动和健康数据功能，建议在**真机**上运行。如果在模拟器上运行，请先打开模拟器自带的「健康 (Health)」App 随意添加一些测试数据（如步数、睡眠和心率），以便 AquaLife 读取并展示。
 
 ## 📱 界面预览
-*(待补充：这里可以放入 App 的截图，如 Today 主页、运动数据页和打卡统计页)*
+
+<p align="center">
+  <img src="Screenshots/screenshot1.jpg" width="19%" />
+  <img src="Screenshots/screenshot2.jpg" width="19%" />
+  <img src="Screenshots/screenshot3.jpg" width="19%" />
+  <img src="Screenshots/screenshot4.jpg" width="19%" />
+  <img src="Screenshots/screenshot5.jpg" width="19%" />
+</p>
 
 ## 🤝 参与贡献
 欢迎提交 Issue 和 Pull Request 来帮助改进 AquaLife！
