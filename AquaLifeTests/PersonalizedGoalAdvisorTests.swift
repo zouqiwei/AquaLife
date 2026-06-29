@@ -119,9 +119,18 @@ final class PersonalizedGoalAdvisorTests: XCTestCase {
     }
 
     func testWeatherProviderMapsFetchedTemperatureIntoHydrationBand() async {
+        let snapshot = WeatherHydrationSnapshot(
+            temperatureCelsius: 30,
+            band: .warm,
+            feelsLikeCelsius: nil,
+            humidity: nil,
+            uvIndex: nil,
+            conditionSymbol: "sun.max",
+            conditionText: "晴"
+        )
         let provider = WeatherHydrationProvider(
             locationResolver: { CLLocation(latitude: 31.2304, longitude: 121.4737) },
-            weatherLoader: { _ in 30 }
+            weatherLoader: { _ in snapshot }
         )
 
         let band = await provider.fetchCurrentBand()
@@ -134,7 +143,7 @@ final class PersonalizedGoalAdvisorTests: XCTestCase {
             locationResolver: { nil },
             weatherLoader: { _ in
                 XCTFail("weather loader should not run without a location")
-                return 0
+                return nil
             }
         )
 
@@ -146,7 +155,12 @@ final class PersonalizedGoalAdvisorTests: XCTestCase {
     func testWeatherSnapshotFormatsReadableStatusLine() {
         let snapshot = WeatherHydrationSnapshot(
             temperatureCelsius: 30,
-            band: .warm
+            band: .warm,
+            feelsLikeCelsius: nil,
+            humidity: nil,
+            uvIndex: nil,
+            conditionSymbol: "sun.max",
+            conditionText: "晴"
         )
 
         XCTAssertEqual(snapshot.statusLine, "当前天气：偏热 · 30°C")

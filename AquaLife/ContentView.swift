@@ -13,11 +13,13 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            TodayView()
-                .tabItem {
-                    Label("今日", systemImage: "drop.fill")
-                }
-                .tag(0)
+            NavigationStack {
+                TodayView()
+            }
+            .tabItem {
+                Label("今日", systemImage: "drop.fill")
+            }
+            .tag(0)
 
             FitnessView()
                 .tabItem {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040E9D742FF23FBC00516D35 /* WeatherDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E9D732FF23FBC00516D35 /* WeatherDetailView.swift */; };
 		092D79FD2559653B38BD6CD0 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABAE41DEDDEEB6D3855025 /* DateHelper.swift */; };
 		0CE777BDEE69336B19057DDB /* WaterStatsCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F62A2520175C71B51F9C14C /* WaterStatsCalculatorTests.swift */; };
 		14E5E28A29B47D092883EFEF /* QuickAddWaterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699AEFB3C376B4ACEA2CD40C /* QuickAddWaterSheet.swift */; };
@@ -17,7 +18,6 @@
 		43DB5F708E7DF99C9137A75C /* PersonalizedGoalAdvisorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DC88114552A4FDB81D462A /* PersonalizedGoalAdvisorTests.swift */; };
 		4434D92E007E4A1BD9B7054A /* CalendarHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD2E3316B222F076675F50C /* CalendarHeatmapView.swift */; };
 		5280C1BD2992DE4AF6C5E085 /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A410E18B042D215F3F19BC76 /* CheckInView.swift */; };
-		FA220000000000000000CAFE /* FitnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA110000000000000000CAFE /* FitnessView.swift */; };
 		61CB7B45DDB19F2D8D90E4F7 /* WaterRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1709E56D6F4C2AEDBDF4798F /* WaterRecord.swift */; };
 		62AD26645BB06534D72DBD4A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB9611B1B7EAA9B705F6C71 /* ContentView.swift */; };
 		66FB3D35F32C1D6C1BB1AED9 /* WaterStatsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A7763090AA46FC3F7F77A2 /* WaterStatsCalculator.swift */; };
@@ -38,6 +38,7 @@
 		E1299D94C9BB354A66DB4EB4 /* Pods_AquaLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A38D013862E7903C7A3A33FC /* Pods_AquaLife.framework */; };
 		E84AC23B51E79F491A132042 /* WaterProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CEE1A65C8FF9C279DFC63 /* WaterProgressRing.swift */; };
 		F349E53B805D7957C8654A28 /* WaterAchievementCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD9ED98A33F95A6037B5C24 /* WaterAchievementCalculator.swift */; };
+		FA220000000000000000CAFE /* FitnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA110000000000000000CAFE /* FitnessView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 /* Begin PBXFileReference section */
 		004A3B73A302E4FD881C8F83 /* PersonalizedGoalAdvisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizedGoalAdvisor.swift; sourceTree = "<group>"; };
 		011DB1F3F955111EE14F2329 /* Pods-AquaLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AquaLife.debug.xcconfig"; path = "Target Support Files/Pods-AquaLife/Pods-AquaLife.debug.xcconfig"; sourceTree = "<group>"; };
+		040E9D732FF23FBC00516D35 /* WeatherDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailView.swift; sourceTree = "<group>"; };
 		13A7763090AA46FC3F7F77A2 /* WaterStatsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterStatsCalculator.swift; sourceTree = "<group>"; };
 		1709E56D6F4C2AEDBDF4798F /* WaterRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterRecord.swift; sourceTree = "<group>"; };
 		23066EFEA6707CD1AAD5F6F4 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
@@ -77,7 +79,6 @@
 		9C11D29E03200159E3EA2AD3 /* WaterIntakeAdviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterIntakeAdviceTests.swift; sourceTree = "<group>"; };
 		A38D013862E7903C7A3A33FC /* Pods_AquaLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AquaLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A410E18B042D215F3F19BC76 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
-		FA110000000000000000CAFE /* FitnessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessView.swift; sourceTree = "<group>"; };
 		C0B7CEF0215C85BBC6CFFB0E /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		CCD9ED98A33F95A6037B5C24 /* WaterAchievementCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterAchievementCalculator.swift; sourceTree = "<group>"; };
 		CCF3B69EE3C474D9EE3053DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 		ECD28C35597E2A8B3DB2EE5D /* AquaLife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AquaLife.entitlements; sourceTree = "<group>"; };
 		F355B8E66011CD4F06304B48 /* HealthCardGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCardGrid.swift; sourceTree = "<group>"; };
 		F69A33B8D5036FD9DA251C5D /* DailyHealthSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyHealthSnapshot.swift; sourceTree = "<group>"; };
+		FA110000000000000000CAFE /* FitnessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,14 +210,6 @@
 			path = CheckIn;
 			sourceTree = "<group>";
 		};
-		FA330000000000000000CAFE /* Fitness */ = {
-			isa = PBXGroup;
-			children = (
-				FA110000000000000000CAFE /* FitnessView.swift */,
-			);
-			path = Fitness;
-			sourceTree = "<group>";
-		};
 		8D718C4DE940BF53DC343AFA /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,7 +225,6 @@
 				011DB1F3F955111EE14F2329 /* Pods-AquaLife.debug.xcconfig */,
 				6E74F5352D22F7FC9FC3608F /* Pods-AquaLife.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -254,6 +247,7 @@
 				699AEFB3C376B4ACEA2CD40C /* QuickAddWaterSheet.swift */,
 				23066EFEA6707CD1AAD5F6F4 /* TodayView.swift */,
 				7E4CEE1A65C8FF9C279DFC63 /* WaterProgressRing.swift */,
+				040E9D732FF23FBC00516D35 /* WeatherDetailView.swift */,
 			);
 			path = Today;
 			sourceTree = "<group>";
@@ -266,6 +260,14 @@
 				1709E56D6F4C2AEDBDF4798F /* WaterRecord.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		FA330000000000000000CAFE /* Fitness */ = {
+			isa = PBXGroup;
+			children = (
+				FA110000000000000000CAFE /* FitnessView.swift */,
+			);
+			path = Fitness;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,6 +380,7 @@
 				092D79FD2559653B38BD6CD0 /* DateHelper.swift in Sources */,
 				769AAEA1D04C160BA6D8B224 /* GoalSettings.swift in Sources */,
 				C710EF2AA71FAF29FA224039 /* Habit.swift in Sources */,
+				040E9D742FF23FBC00516D35 /* WeatherDetailView.swift in Sources */,
 				2B5B63949DE86271E41E7A43 /* HealthCardGrid.swift in Sources */,
 				A6E75B83706E2D16F8B9A181 /* HealthKitManager.swift in Sources */,
 				A716FA0F9941FA689D6B6F47 /* NotificationManager.swift in Sources */,
@@ -426,13 +429,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AquaLife/AquaLife.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 432G2Q5Q3E;
+				DEVELOPMENT_TEAM = 49JTU5P7J7;
 				INFOPLIST_FILE = AquaLife/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zouqiwei.AquaLife;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aquaLife.ysb;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -462,13 +465,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AquaLife/AquaLife.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 432G2Q5Q3E;
+				DEVELOPMENT_TEAM = 49JTU5P7J7;
 				INFOPLIST_FILE = AquaLife/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zouqiwei.AquaLife;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aquaLife.ysb;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

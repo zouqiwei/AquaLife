@@ -284,26 +284,30 @@ struct FitnessView: View {
                     .minimumScaleFactor(0.6)
             }
 
-            Text("睡眠")
-                .font(.system(size: 12, weight: .medium))
-                .foregroundColor(AppTheme.textSecondary)
-            Text(vm.sleepRating.label)
-                .font(.system(size: 10))
-                .foregroundColor(AppTheme.sleepColor.opacity(0.9))
-
-            ZStack {
-                Circle()
-                    .stroke(AppTheme.sleepColor.opacity(0.15), lineWidth: 5)
-                Circle()
-                    .trim(from: 0, to: vm.sleepProgress)
-                    .stroke(AppTheme.sleepColor, style: StrokeStyle(lineWidth: 5, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                    .animation(.spring(response: 0.6), value: vm.sleepProgress)
+            HStack(alignment: .bottom) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("睡眠")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(AppTheme.textSecondary)
+                    Text(vm.sleepRating.label)
+                        .font(.system(size: 10))
+                        .foregroundColor(AppTheme.sleepColor.opacity(0.9))
+                }
+                Spacer()
+                ZStack {
+                    Circle()
+                        .stroke(AppTheme.sleepColor.opacity(0.15), lineWidth: 5)
+                    Circle()
+                        .trim(from: 0, to: vm.sleepProgress)
+                        .stroke(AppTheme.sleepColor, style: StrokeStyle(lineWidth: 5, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                        .animation(.spring(response: 0.6), value: vm.sleepProgress)
+                }
+                .frame(width: 36, height: 36)
             }
-            .frame(width: 36, height: 36)
         }
         .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .fill(AppTheme.sleepColor.opacity(0.08))
@@ -363,7 +367,7 @@ struct FitnessView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
         }
         .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .fill(AppTheme.heartColor.opacity(0.08))
@@ -450,7 +454,7 @@ struct FitnessView: View {
                 }
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .day)) { _ in
-                        AxisValueLabel(format: .dateTime.weekday(.abbreviated), centered: true)
+                        AxisValueLabel(format: .dateTime.month(.defaultDigits).day(), centered: true)
                             .foregroundStyle(AppTheme.textSecondary)
                     }
                 }
@@ -471,7 +475,6 @@ struct FitnessView: View {
     }
 
     // MARK: - Helpers
-
     private var formattedToday: String {
         let f = DateFormatter()
         f.locale = Locale(identifier: "zh_CN")

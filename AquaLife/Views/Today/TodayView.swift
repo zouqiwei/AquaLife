@@ -101,6 +101,7 @@ struct TodayView: View {
                     headerSection
                     waterRingSection
                     personalizedGoalSection
+                    // weatherDetailCard  // 已移至天气二级页面
                     smartAdviceSection
                     quickAddSection
                     healthKitStatusSection
@@ -173,9 +174,30 @@ struct TodayView: View {
                     .foregroundColor(AppTheme.textPrimary)
             }
             Spacer()
-            Image(systemName: "drop.fill")
-                .font(.system(size: 28))
-                .foregroundStyle(AppTheme.waterGradient)
+            NavigationLink {
+                WeatherDetailView(snapshot: vm.weatherSnapshot)
+            } label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(AppTheme.primary.opacity(0.12))
+                        .frame(width: 44, height: 44)
+                    if let snap = vm.weatherSnapshot {
+                        VStack(spacing: 1) {
+                            Image(systemName: snap.conditionSymbol)
+                                .symbolRenderingMode(.multicolor)
+                                .font(.system(size: 17, weight: .semibold))
+                            Text("\(snap.roundedTemperatureCelsius)°")
+                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .foregroundColor(AppTheme.textPrimary)
+                        }
+                    } else {
+                        Image(systemName: "cloud.fill")
+                            .font(.system(size: 22))
+                            .foregroundColor(AppTheme.textSecondary.opacity(0.5))
+                    }
+                }
+            }
+            .buttonStyle(.plain)
         }
     }
 
@@ -323,6 +345,69 @@ struct TodayView: View {
         .glassCard()
     }
 
+    // MARK: - Weather Detail Card
+    @ViewBuilder
+    private var weatherDetailCard: some View {
+        if let snap = vm.weatherSnapshot {
+            VStack(alignment: .leading, spacing: 14) {
+                // Header
+                HStack(spacing: 10) {
+                    Image(systemName: snap.conditionSymbol)
+                        .symbolRenderingMode(.multicolor)
+                        .font(.system(size: 22, weight: .semibold))
+                        .frame(width: 38, height: 38)
+                        .background(AppTheme.primary.opacity(0.12))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("当前天气")
+                            .font(.system(size: 13, weight: .medium))
+                            .foregroundColor(AppTheme.textSecondary)
+                        Text(snap.conditionText)
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(AppTheme.textPrimary)
+                    }
+                    Spacer()
+                    // Big temperature
+                    Text("\(snap.roundedTemperatureCelsius)°")
+                        .font(.system(size: 38, weight: .bold, design: .rounded))
+                        .foregroundColor(AppTheme.textPrimary)
+                }
+
+                Divider().background(AppTheme.cardBorder)
+
+                // Detail grid
+                HStack(spacing: 0) {
+                    WeatherMetricItem(
+                        symbol: "thermometer.medium",
+                        label: "体感温度",
+                        value: snap.roundedFeelsLike.map { "\($0)°C" } ?? "--"
+                    )
+                    Divider().frame(height: 36).background(AppTheme.cardBorder)
+                    WeatherMetricItem(
+                        symbol: "humidity",
+                        label: "湿度",
+                        value: snap.humidityPercent.map { "\($0)%" } ?? "--"
+                    )
+                    Divider().frame(height: 36).background(AppTheme.cardBorder)
+                    WeatherMetricItem(
+                        symbol: "sun.max.fill",
+                        label: "UV 指数",
+                        value: snap.uvLabel
+                    )
+                    Divider().frame(height: 36).background(AppTheme.cardBorder)
+                    WeatherMetricItem(
+                        symbol: "drop.fill",
+                        label: "建议分类",
+                        value: snap.bandLabel
+                    )
+                }
+            }
+            .padding(16)
+            .glassCard()
+        }
+    }
+
     private var smartAdviceSection: some View {
         let advice = WaterIntakeAdvisor.advice(
             current: vm.todayWaterMl,
@@ -418,6 +503,17 @@ struct TodayView: View {
                         target: "正常范围"
                     )
                 }
+                // Weather card in health grid
+                if let snap = vm.weatherSnapshot {
+                    HealthCard(
+                        icon: snap.conditionSymbol,
+                        title: "天气",
+                        value: "\(snap.roundedTemperatureCelsius)°",
+                        unit: "C",
+                        color: weatherCardColor(for: snap.band),
+                        target: snap.conditionText
+                    )
+                }
             }
         }
     }
@@ -445,9 +541,15 @@ struct TodayView: View {
 
     private var timelineSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("今日记录")
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundColor(AppTheme.textSecondary)
+            HStack {
+                Text("今日记录")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(AppTheme.textSecondary)
+                Spacer()
+                Text("共 \(todayRecords.count) 条 / 总 \(allRecords.count) 条")
+                    .font(.system(size: 11))
+                    .foregroundColor(AppTheme.textSecondary.opacity(0.6))
+            }
 
             if todayRecords.isEmpty {
                 HStack {
@@ -585,6 +687,41 @@ struct TodayView: View {
         case .weather:
             return "+\(Int(factor.delta)) ml 天气"
         }
+    }
+
+    private func weatherCardColor(for band: WeatherHydrationBand) -> Color {
+        switch band {
+        case .cool: return Color(hex: "#74B9FF")
+        case .mild: return AppTheme.secondary
+        case .warm: return AppTheme.stepsColor
+        case .hot:  return AppTheme.heartColor
+        }
+    }
+}
+
+// MARK: - WeatherMetricItem
+struct WeatherMetricItem: View {
+    let symbol: String
+    let label: String
+    let value: String
+
+    var body: some View {
+        VStack(spacing: 5) {
+            Image(systemName: symbol)
+                .symbolRenderingMode(.multicolor)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(AppTheme.primary)
+            Text(value)
+                .font(.system(size: 13, weight: .bold, design: .rounded))
+                .foregroundColor(AppTheme.textPrimary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+            Text(label)
+                .font(.system(size: 10))
+                .foregroundColor(AppTheme.textSecondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 4)
     }
 }
 
