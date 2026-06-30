@@ -41,6 +41,9 @@ enum AppTheme {
         endPoint: .bottomTrailing
     )
 
+    /// 和背景渐变起始色一致，用于导航栏背景
+    static let navBarBackground = dynamicColor(light: "#F4FBFF", dark: "#0A1628")
+
     static let cardBackground = dynamicColor(
         light: "#FFFFFF",
         dark: "#132236",
@@ -118,7 +121,7 @@ extension Color {
 }
 
 #if canImport(UIKit)
-private extension UIColor {
+extension UIColor {
     convenience init(hex: String, alpha: CGFloat = 1) {
         var h = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         if h.hasPrefix("#") { h = String(h.dropFirst()) }

@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-
+import UIKit
 struct WeatherDetailView: View {
     let snapshot: WeatherHydrationSnapshot?
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         ZStack {
@@ -19,6 +20,8 @@ struct WeatherDetailView: View {
                     headerCard
                     if let snap = snapshot {
                         metricsGrid(snap: snap)
+                        hourlyForecastCard(snap: snap)
+                        dailyForecastCard(snap: snap)
                         hydrationImpactCard(snap: snap)
                         uvAdviceCard(snap: snap)
                     } else {
@@ -33,9 +36,20 @@ struct WeatherDetailView: View {
         }
         .navigationTitle("当前天气")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+        .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .tabBar)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.black)
+                        .font(.system(size: 17, weight: .medium))
+                }
+            }
+        }
+        .background(WeatherDetailNavigationBarShadowHider())
     }
 
     // MARK: - Header Card
@@ -280,6 +294,134 @@ struct WeatherDetailView: View {
         }
         return tips
     }
+
+    // MARK: - Hourly Forecast Card
+    @ViewBuilder
+    private func hourlyForecastCard(snap: WeatherHydrationSnapshot) -> some View {
+        if let hourly = snap.hourlyForecast, !hourly.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 8) {
+                    Image(systemName: "clock")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(AppTheme.primary)
+                    Text("未来 24 小时")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(AppTheme.textPrimary)
+                }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 14) {
+                        ForEach(hourly.indices, id: \.self) { i in
+                            HourlyWeatherCell(info: hourly[i], isFirst: i == 0)
+                        }
+                    }
+                    .padding(.horizontal, 4)
+                }
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .glassCard()
+        }
+    }
+
+    // MARK: - Daily Forecast Card
+    @ViewBuilder
+    private func dailyForecastCard(snap: WeatherHydrationSnapshot) -> some View {
+        if let daily = snap.dailyForecast, !daily.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 8) {
+                    Image(systemName: "calendar")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(AppTheme.primary)
+                    Text("未来 7 天")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(AppTheme.textPrimary)
+                }
+                VStack(spacing: 0) {
+                    ForEach(daily.indices, id: \.self) { i in
+                        DailyWeatherRow(info: daily[i], isFirst: i == 0)
+                        if i < daily.count - 1 {
+                            Divider()
+                                .background(AppTheme.cardBorder)
+                                .padding(.leading, 44)
+                        }
+                    }
+                }
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .glassCard()
+        }
+    }
+
+}
+
+private struct WeatherDetailNavigationBarShadowHider: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> WeatherDetailNavigationBarShadowHiderController {
+        WeatherDetailNavigationBarShadowHiderController()
+    }
+
+    func updateUIViewController(_ uiViewController: WeatherDetailNavigationBarShadowHiderController, context: Context) {}
+}
+
+private final class WeatherDetailNavigationBarShadowHiderController: UIViewController {
+    private var previousStandardAppearance: UINavigationBarAppearance?
+    private var previousScrollEdgeAppearance: UINavigationBarAppearance?
+    private var previousCompactAppearance: UINavigationBarAppearance?
+    private var previousCompactScrollEdgeAppearance: UINavigationBarAppearance?
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        applyAppearance()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        restoreAppearance()
+    }
+
+    private func applyAppearance() {
+        guard let navigationBar = navigationController?.navigationBar else { return }
+
+        previousStandardAppearance = navigationBar.standardAppearance
+        previousScrollEdgeAppearance = navigationBar.scrollEdgeAppearance
+        previousCompactAppearance = navigationBar.compactAppearance
+        previousCompactScrollEdgeAppearance = navigationBar.compactScrollEdgeAppearance
+
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        
+        let isDark = traitCollection.userInterfaceStyle == .dark
+        appearance.backgroundColor = isDark ? UIColor(hex: "#0A1628") : UIColor(hex: "#F4FBFF")
+        appearance.shadowColor = .clear
+        appearance.shadowImage = UIImage()
+
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+        navigationBar.compactAppearance = appearance
+        navigationBar.compactScrollEdgeAppearance = appearance
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        applyAppearance()
+    }
+
+    private func restoreAppearance() {
+        guard let navigationBar = navigationController?.navigationBar else { return }
+
+        if let previousStandardAppearance {
+            navigationBar.standardAppearance = previousStandardAppearance
+        }
+        navigationBar.scrollEdgeAppearance = previousScrollEdgeAppearance
+        navigationBar.compactAppearance = previousCompactAppearance
+        navigationBar.compactScrollEdgeAppearance = previousCompactScrollEdgeAppearance
+    }
 }
 
 // MARK: - WeatherDetailMetricCard
@@ -329,5 +471,86 @@ struct WeatherDetailMetricCard: View {
                         .stroke(color.opacity(0.2), lineWidth: 1)
                 )
         )
+    }
+}
+// MARK: - HourlyWeatherCell
+struct HourlyWeatherCell: View {
+    let info: HourlyWeatherInfo
+    let isFirst: Bool
+
+    private var timeLabel: String {
+        if isFirst { return "现在" }
+        let f = DateFormatter()
+        f.dateFormat = "HH时"
+        return f.string(from: info.time)
+    }
+
+    var body: some View {
+        VStack(spacing: 6) {
+            Text(timeLabel)
+                .font(.system(size: 11))
+                .foregroundColor(isFirst ? AppTheme.primary : AppTheme.textSecondary)
+                .fontWeight(isFirst ? .semibold : .regular)
+            Image(systemName: info.conditionSymbol)
+                .symbolRenderingMode(.multicolor)
+                .font(.system(size: 22))
+                .frame(height: 26)
+            Text("\(info.roundedTemperature)°")
+                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                .foregroundColor(AppTheme.textPrimary)
+        }
+        .padding(.vertical, 6)
+        .padding(.horizontal, 6)
+    }
+}
+
+// MARK: - DailyWeatherRow
+struct DailyWeatherRow: View {
+    let info: DailyWeatherInfo
+    let isFirst: Bool
+
+    private var dayLabel: String {
+        if isFirst { return "今天" }
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "zh_CN")
+        f.dateFormat = "EEE"
+        return f.string(from: info.time)
+    }
+
+    var body: some View {
+        HStack(spacing: 0) {
+            Text(dayLabel)
+                .font(.system(size: 13, weight: isFirst ? .semibold : .regular))
+                .foregroundColor(isFirst ? AppTheme.textPrimary : AppTheme.textSecondary)
+                .frame(width: 40, alignment: .leading)
+
+            Image(systemName: info.conditionSymbol)
+                .symbolRenderingMode(.multicolor)
+                .font(.system(size: 18))
+                .frame(width: 28)
+
+            Spacer()
+
+            HStack(spacing: 4) {
+                Text("\(info.roundedLow)°")
+                    .font(.system(size: 13))
+                    .foregroundColor(AppTheme.textSecondary)
+                    .frame(width: 30, alignment: .trailing)
+
+                Capsule()
+                    .fill(LinearGradient(
+                        colors: [AppTheme.primary.opacity(0.5), AppTheme.stepsColor.opacity(0.7)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ))
+                    .frame(width: 60, height: 4)
+
+                Text("\(info.roundedHigh)°")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(AppTheme.textPrimary)
+                    .frame(width: 30, alignment: .leading)
+            }
+        }
+        .padding(.vertical, 10)
     }
 }

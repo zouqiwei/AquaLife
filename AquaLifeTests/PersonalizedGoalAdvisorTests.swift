@@ -108,6 +108,29 @@ final class PersonalizedGoalAdvisorTests: XCTestCase {
         XCTAssertEqual(WeatherHydrationProvider.band(forTemperatureCelsius: 33), .hot)
     }
 
+    func testWeatherLocationAuthorizationActionDependsOnAuthorizationStatus() {
+        XCTAssertEqual(
+            WeatherLocationAuthorizationAction.make(for: .authorizedAlways),
+            .requestLocation
+        )
+        XCTAssertEqual(
+            WeatherLocationAuthorizationAction.make(for: .authorizedWhenInUse),
+            .requestLocation
+        )
+        XCTAssertEqual(
+            WeatherLocationAuthorizationAction.make(for: .notDetermined),
+            .requestAuthorization
+        )
+        XCTAssertEqual(
+            WeatherLocationAuthorizationAction.make(for: .denied),
+            .unavailable
+        )
+        XCTAssertEqual(
+            WeatherLocationAuthorizationAction.make(for: .restricted),
+            .unavailable
+        )
+    }
+
     func testWeatherProviderReturnsNilWhenNoWeatherSourceIsAvailable() async {
         let provider = WeatherHydrationProvider(
             locationResolver: { CLLocation(latitude: 31.2304, longitude: 121.4737) },
@@ -126,7 +149,10 @@ final class PersonalizedGoalAdvisorTests: XCTestCase {
             humidity: nil,
             uvIndex: nil,
             conditionSymbol: "sun.max",
-            conditionText: "晴"
+            conditionText: "晴",
+            hourlyForecast: nil,
+            dailyForecast: nil,
+            locationName: nil
         )
         let provider = WeatherHydrationProvider(
             locationResolver: { CLLocation(latitude: 31.2304, longitude: 121.4737) },
@@ -160,7 +186,10 @@ final class PersonalizedGoalAdvisorTests: XCTestCase {
             humidity: nil,
             uvIndex: nil,
             conditionSymbol: "sun.max",
-            conditionText: "晴"
+            conditionText: "晴",
+            hourlyForecast: nil,
+            dailyForecast: nil,
+            locationName: nil
         )
 
         XCTAssertEqual(snapshot.statusLine, "当前天气：偏热 · 30°C")

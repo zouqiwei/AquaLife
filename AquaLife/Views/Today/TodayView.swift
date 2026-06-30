@@ -177,26 +177,40 @@ struct TodayView: View {
             NavigationLink {
                 WeatherDetailView(snapshot: vm.weatherSnapshot)
             } label: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 14)
-                        .fill(AppTheme.primary.opacity(0.12))
-                        .frame(width: 44, height: 44)
+                HStack(spacing: 8) {
                     if let snap = vm.weatherSnapshot {
-                        VStack(spacing: 1) {
-                            Image(systemName: snap.conditionSymbol)
-                                .symbolRenderingMode(.multicolor)
-                                .font(.system(size: 17, weight: .semibold))
-                            Text("\(snap.roundedTemperatureCelsius)°")
-                                .font(.system(size: 10, weight: .bold, design: .rounded))
-                                .foregroundColor(AppTheme.textPrimary)
+                        VStack(alignment: .trailing, spacing: 2) {
+                            if let location = snap.locationName {
+                                Text(location)
+                                    .font(.system(size: 11, weight: .medium))
+                                    .foregroundColor(AppTheme.textSecondary)
+                            }
+                            HStack(spacing: 4) {
+                                Image(systemName: snap.conditionSymbol)
+                                    .symbolRenderingMode(.multicolor)
+                                    .font(.system(size: 14))
+                                Text("\(snap.roundedTemperatureCelsius)°")
+                                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                                    .foregroundColor(AppTheme.textPrimary)
+                            }
                         }
                     } else {
-                        Image(systemName: "cloud.fill")
-                            .font(.system(size: 22))
-                            .foregroundColor(AppTheme.textSecondary.opacity(0.5))
+                        Image(systemName: "location.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(AppTheme.textSecondary)
+                        Text("定位中...")
+                            .font(.system(size: 12))
+                            .foregroundColor(AppTheme.textSecondary)
                     }
                 }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(AppTheme.primary.opacity(0.12))
+                )
             }
+
             .buttonStyle(.plain)
         }
     }

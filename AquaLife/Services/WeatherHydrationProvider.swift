@@ -9,6 +9,31 @@ import CoreLocation
 import Foundation
 import WeatherKit
 
+struct HourlyWeatherInfo: Equatable {
+    let time: Date
+    let temperatureCelsius: Double
+    let conditionSymbol: String
+    
+    var roundedTemperature: Int {
+        Int(temperatureCelsius.rounded())
+    }
+}
+
+struct DailyWeatherInfo: Equatable {
+    let time: Date
+    let highTemperatureCelsius: Double
+    let lowTemperatureCelsius: Double
+    let conditionSymbol: String
+    
+    var roundedHigh: Int {
+        Int(highTemperatureCelsius.rounded())
+    }
+    
+    var roundedLow: Int {
+        Int(lowTemperatureCelsius.rounded())
+    }
+}
+
 struct WeatherHydrationSnapshot: Equatable {
     let temperatureCelsius: Double
     let band: WeatherHydrationBand
@@ -22,6 +47,12 @@ struct WeatherHydrationSnapshot: Equatable {
     let conditionSymbol: String
     /// 天气状况中文描述
     let conditionText: String
+    /// 未来 24 小时预报
+    let hourlyForecast: [HourlyWeatherInfo]?
+    /// 未来 7 天预报
+    let dailyForecast: [DailyWeatherInfo]?
+    /// 位置名称（区或市）
+    let locationName: String?
 
     var roundedTemperatureCelsius: Int {
         Int(temperatureCelsius.rounded())
@@ -123,23 +154,19 @@ private final class WeatherLocationClient: NSObject, @preconcurrency CLLocationM
     }
 
     func currentLocation() async -> CLLocation? {
-        guard CLLocationManager.locationServicesEnabled() else { return nil }
-
-        let status = manager.authorizationStatus
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
-            break
-        case .notDetermined:
-            manager.requestWhenInUseAuthorization()
-        default:
-            return nil
-        }
-
-        return await withCheckedContinuation { continuation in
+        switch WeatherLocationAuthorizationAction.make(for: manager.authorizationStatus) {
+        case .requestLocation:
+            return await withCheckedContinuation { continuation in
             self.continuation = continuation
-            if status == .authorizedAlways || status == .authorizedWhenInUse {
-                self.manager.requestLocation()
+            self.manager.requestLocation()
+        }
+        case .requestAuthorization:
+            return await withCheckedContinuation { continuation in
+                self.continuation = continuation
+                self.manager.requestWhenInUseAuthorization()
             }
+        case .unavailable:
+            return nil
         }
     }
 
@@ -171,6 +198,25 @@ private final class WeatherLocationClient: NSObject, @preconcurrency CLLocationM
     }
 }
 
+private enum WeatherLocationAuthorizationAction: Equatable {
+    case requestLocation
+    case requestAuthorization
+    case unavailable
+
+    static func make(for status: CLAuthorizationStatus) -> Self {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            return .requestLocation
+        case .notDetermined:
+            return .requestAuthorization
+        case .denied, .restricted:
+            return .unavailable
+        @unknown default:
+            return .unavailable
+        }
+    }
+}
+
 private actor WeatherKitClient {
     static let shared = WeatherKitClient()
 
@@ -180,6 +226,25 @@ private actor WeatherKitClient {
         do {
             let weather = try await service.weather(for: location)
             let current = weather.currentWeather
+            
+            let now = Date()
+            let hourly = weather.hourlyForecast.filter { $0.date >= now }.prefix(24).map {
+                HourlyWeatherInfo(
+                    time: $0.date,
+                    temperatureCelsius: $0.temperature.value,
+                    conditionSymbol: $0.symbolName
+                )
+            }
+            
+            let daily = weather.dailyForecast.prefix(7).map {
+                DailyWeatherInfo(
+                    time: $0.date,
+                    highTemperatureCelsius: $0.highTemperature.value,
+                    lowTemperatureCelsius: $0.lowTemperature.value,
+                    conditionSymbol: $0.symbolName
+                )
+            }
+            
             let temp = current.temperature.value
             let feelsLike = current.apparentTemperature.value
             let humidity = current.humidity
@@ -187,6 +252,11 @@ private actor WeatherKitClient {
             let symbol = current.symbolName
             let condition = current.condition
             let conditionText = Self.chineseCondition(condition)
+            
+            // 逆地理编码获取当前区县
+            let placemarks = try? await CLGeocoder().reverseGeocodeLocation(location)
+            let locationName = placemarks?.first?.subLocality ?? placemarks?.first?.locality
+            
             return WeatherHydrationSnapshot(
                 temperatureCelsius: temp,
                 band: WeatherHydrationProvider.band(forTemperatureCelsius: temp),
@@ -194,7 +264,10 @@ private actor WeatherKitClient {
                 humidity: humidity,
                 uvIndex: uv,
                 conditionSymbol: symbol,
-                conditionText: conditionText
+                conditionText: conditionText,
+                hourlyForecast: Array(hourly),
+                dailyForecast: Array(daily),
+                locationName: locationName
             )
         } catch {
             print("WeatherKit Error: \(error)")
